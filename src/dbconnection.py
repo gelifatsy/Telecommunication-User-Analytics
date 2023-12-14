@@ -9,7 +9,7 @@ def create_database_connection():
         'port': '5432',
         'user': 'postgres',
         'password': 'lawofatt7',
-        'database': 'tele',
+        'database': 'telecom',
     }
 
     # Create a SQLAlchemy engine

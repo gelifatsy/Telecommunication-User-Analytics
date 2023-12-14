@@ -2,6 +2,8 @@
 # KEDRO PROJECT
 
 # ignore all local configuration
+your_env_name/
+
 conf/local/**
 !conf/local/.gitkeep
 .telemetry

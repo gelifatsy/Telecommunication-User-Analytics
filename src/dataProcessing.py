@@ -27,3 +27,44 @@ def aggregate_per_user(df, all_app):
     user_aggregated.rename(columns={'Bearer Id': 'Number of xDR sessions', 'Total DL (Bytes)': 'Total Download (Bytes)', 'Total UL (Bytes)': 'Total Upload (Bytes)'}, inplace=True)
 
     return user_aggregated
+
+import pandas as pd
+
+def calculate_all_metrics(data):
+    quantitative_columns = data.select_dtypes(include=['number']).columns
+
+    metrics_data = pd.DataFrame(index=quantitative_columns, columns=[
+        'Range', 'Variance', 'Standard Deviation', 'IQR',
+        'Coefficient of Variation', 'Mean Absolute Deviation',
+        'Range (P10 to P90)', 'Z-Score Range'
+    ])
+
+    for column in quantitative_columns:
+        column_data = data[column].dropna() 
+
+        data_range = column_data.max() - column_data.min()
+        data_variance = column_data.var()
+        data_std_dev = column_data.std()
+        data_iqr = column_data.quantile(0.75) - column_data.quantile(0.25)
+
+        # Calculate additional metrics
+        coefficient_of_variation = (column_data.std() / column_data.mean()) * 100
+        mean_absolute_deviation = column_data.mad()
+
+        p10 = column_data.quantile(0.10)
+        p90 = column_data.quantile(0.90)
+        range_p10_p90 = p90 - p10
+
+        z_scores = (column_data - column_data.mean()) / column_data.std()
+        z_score_range = z_scores.max() - z_scores.min()
+
+        # Store values in the DataFrame
+        metrics_data.loc[column] = [
+            data_range, data_variance, data_std_dev, data_iqr,
+            coefficient_of_variation, mean_absolute_deviation,
+            range_p10_p90, z_score_range
+        ]
+
+    return metrics_data
+
+import pandas as pd
