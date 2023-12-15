@@ -10,17 +10,21 @@ def plot_histogram(df, column):
     plt.show()
 
 
-
-def scatter_plot(cleaned_data, applications):
-    cleaned_data['Total Data (DL+UL)'] = cleaned_data['Total UL (Bytes)'] + cleaned_data['Total DL (Bytes)']
-
+# Scatter Plot of Total Data Usage(DL + UL) for Each Application
+def scatter_plot_total_data(df, app):
+        sns.scatterplot(x=df[app + ' DL (Bytes)'] + df[app + ' UL (Bytes)'], y=df['Total UL (Bytes)'] + df['Total DL (Bytes)'], label=app)
+        plt.title('Scatter Plot of Total Data Usage(DL + UL) for Each Application')
+        plt.xlabel('Total Data Usage (DL+UL) for Each App')
+        plt.ylabel('Total Data Usage (DL+UL)')
+        plt.legend()
+        plt.show()
+       
+def scatter_plot_UL_vs_DL(df, applications):
     plt.figure(figsize=(14, 10))
-    
     for app in applications:
-        sns.scatterplot(x=cleaned_data[app + ' DL (Bytes)'], y=cleaned_data[app + ' UL (Bytes)'], label=app)
-
-    plt.xlabel('DL Data (Bytes)')
-    plt.ylabel('UL Data (Bytes)')
+        sns.scatterplot(x=df[app + ' DL (Bytes)'], y=df[app + ' UL (Bytes)'], label=app)
     plt.title('Scatter Plot of DL vs. UL Data for Each Application')
+    plt.xlabel('DL Data Usage')
+    plt.ylabel('UL Data Usage')
     plt.legend()
     plt.show()

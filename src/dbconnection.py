@@ -17,6 +17,7 @@ def create_database_connection():
 
     return engine
 
+
 def read_data_into_dataframe(engine, table_name):
     # SQL query to fetch data from a table 
     query = f"SELECT * FROM xdr_data;"
